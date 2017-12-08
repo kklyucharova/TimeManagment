@@ -20,7 +20,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_home" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/record_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_record"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

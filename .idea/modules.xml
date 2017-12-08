@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TimeManagment.iml" filepath="$PROJECT_DIR$/TimeManagment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TimeManagment.iml" filepath="$PROJECT_DIR$/.idea/TimeManagment.iml" />
+      <module fileurl="file://C:\Projects\TimeManagment\TimeManagment.iml" filepath="C:\Projects\TimeManagment\TimeManagment.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
