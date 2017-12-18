@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_usage"
+        android:icon="@drawable/ic_statistics"
+        android:title="Most usage" />
+    <item
+        android:id="@+id/menu_popular"
+        android:icon="@drawable/ic_statistics"
+        android:title="Most popular" />
+    <item
+        android:id="@+id/menu_time"
+        android:icon="@drawable/ic_statistics"
+        android:title="Time" />
+    <item
+        android:icon="@drawable/ic_pie"
+        android:id="@+id/menu_chart"
+        android:title="Chart" />
+</menu>

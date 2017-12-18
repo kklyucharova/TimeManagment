@@ -10,10 +10,10 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Category {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private String name;
+    private String name = "";
     private int icon;
 
     public int getIcon() {
@@ -38,5 +38,10 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

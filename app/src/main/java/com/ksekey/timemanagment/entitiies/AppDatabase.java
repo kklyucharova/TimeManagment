@@ -31,18 +31,35 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @Dao
     interface RecordDao {
+
+        @Query("SELECT * FROM Record WHERE id=:id")
+        Record loadById(int id);
+
         @Query("SELECT * FROM Record")
         List<Record> loadAll();
+
 
         @Query("DELETE FROM Record")
         void delete();
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void save(Record record);
+        long save(Record record);
     }
 
     @Dao
     interface CategoryDao {
+        @Query("SELECT * FROM Category WHERE id=:id")
+        Category loadById(int id);
+
+        @Query("SELECT categoryId, COUNT(*) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        List<MetaCategory> getCountRecords(Date start, Date end);
+
+        @Query("SELECT categoryId, SUM(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        List<MetaCategory> getSumRecords(Date start, Date end);
+
+        @Query("SELECT categoryId, MAX(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        List<MetaCategory> getMaxRecords(Date start, Date end);
+
         @Query("SELECT * FROM Category")
         List<Category> loadAll();
 
@@ -51,6 +68,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void save(Category record);
+
+
     }
 
     @Dao
@@ -61,12 +80,18 @@ public abstract class AppDatabase extends RoomDatabase {
         @Query("DELETE FROM Photo")
         void delete();
 
+        @Query("DELETE FROM Photo WHERE id=:id")
+        void deleteById(int id);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void save(Photo record);
+
+        @Query("SELECT * FROM Photo WHERE recordId=:recordId")
+        List<Photo> loadAllByRecordId(int recordId);
     }
 
     public static class Converters {
-        private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+        private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-hh-MM", Locale.UK);
 
         @TypeConverter
         public static Date dateFromString(String formatString) {

@@ -3,6 +3,7 @@ package com.ksekey.timemanagment.entitiies;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,5 +28,49 @@ public class Store {
 
     public List<Record> getRecords() {
         return database.recordDao().loadAll();
+    }
+
+    public List<Category> getCategories() {
+        return database.categoryDao().loadAll();
+    }
+
+    public Record getRecotdById(int id) {
+        return database.recordDao().loadById(id);
+    }
+
+    public Category getCategoryById(int id) {
+        return database.categoryDao().loadById(id);
+    }
+
+    public void save(Photo photo) {
+        database.photoDao().save(photo);
+    }
+
+    public List<Photo> getPhotosForRecord(int recordId) {
+        return database.photoDao().loadAllByRecordId(recordId);
+    }
+
+    public long save(Record record) {
+        return database.recordDao().save(record);
+    }
+
+    public void save(Category category) {
+        database.categoryDao().save(category);
+    }
+
+    public void deletePhoto(long id) {
+        database.photoDao().deleteById((int) id);
+    }
+
+    public List<MetaCategory> loadCategoriesCount(Date start, Date end) {
+        return database.categoryDao().getCountRecords(start, end);
+    }
+
+    public List<MetaCategory> loadCategoriesSum(Date start, Date end) {
+        return database.categoryDao().getSumRecords(start, end);
+    }
+
+    public List<MetaCategory> loadCategoriesMax(Date start, Date end) {
+        return database.categoryDao().getMaxRecords(start, end);
     }
 }
