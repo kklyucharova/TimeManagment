@@ -54,6 +54,10 @@ public class Store {
         return database.recordDao().save(record);
     }
 
+    public void deleteRecord(int id){
+        database.recordDao().delete(id);
+    }
+
     public void save(Category category) {
         database.categoryDao().save(category);
     }
@@ -72,5 +76,13 @@ public class Store {
 
     public List<MetaCategory> loadCategoriesMax(Date start, Date end) {
         return database.categoryDao().getMaxRecords(start, end);
+    }
+
+    public boolean getRecordsByCategory(int id) {
+        return database.recordDao().loadByCategory(id);
+    }
+
+    public void deleteCategory(int id) {
+        database.categoryDao().delete(id);
     }
 }

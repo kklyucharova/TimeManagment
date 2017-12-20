@@ -39,11 +39,14 @@ public abstract class AppDatabase extends RoomDatabase {
         List<Record> loadAll();
 
 
-        @Query("DELETE FROM Record")
-        void delete();
+        @Query("DELETE FROM Record WHERE id=:id")
+        void delete(int id);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         long save(Record record);
+
+        @Query("SELECT * FROM Record WHERE categoryId=:id")
+        boolean loadByCategory(int id);
     }
 
     @Dao
@@ -51,20 +54,20 @@ public abstract class AppDatabase extends RoomDatabase {
         @Query("SELECT * FROM Category WHERE id=:id")
         Category loadById(int id);
 
-        @Query("SELECT categoryId, COUNT(*) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        @Query("SELECT categoryId, COUNT(*) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta DESC")
         List<MetaCategory> getCountRecords(Date start, Date end);
 
-        @Query("SELECT categoryId, SUM(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        @Query("SELECT categoryId, SUM(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta DESC")
         List<MetaCategory> getSumRecords(Date start, Date end);
 
-        @Query("SELECT categoryId, MAX(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta")
+        @Query("SELECT categoryId, MAX(minutes) as meta FROM Record WHERE start BETWEEN :start and :end  GROUP BY categoryId ORDER BY meta DESC")
         List<MetaCategory> getMaxRecords(Date start, Date end);
 
         @Query("SELECT * FROM Category")
         List<Category> loadAll();
 
-        @Query("DELETE FROM Category")
-        void delete();
+        @Query("DELETE FROM Category WHERE id=:id")
+        void delete(int id);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void save(Category record);

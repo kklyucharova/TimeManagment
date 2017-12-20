@@ -165,11 +165,30 @@ public class EditRecordActivity extends AppCompatActivity {
                         calendar.setTime(record.getEnd());
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        record.setStart(calendar.getTime());
+                        record.setEnd(calendar.getTime());
                         setDate(record);
                         recalculateMinutes(record);
                     }
                 }, hour, minute, true).show();
+            }
+        });
+
+        Button delete = findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                executors.background().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        store.deleteRecord(record.getId());
+                        executors.mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        });
+                    }
+                });
             }
         });
 

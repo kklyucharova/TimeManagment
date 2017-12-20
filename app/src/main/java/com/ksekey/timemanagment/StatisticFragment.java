@@ -167,7 +167,7 @@ public class StatisticFragment extends Fragment {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        return date;
+        return calendar.getTime();
     }
 
     private void setupChart(View view) {
@@ -203,7 +203,7 @@ public class StatisticFragment extends Fragment {
         executors.background().execute(new Runnable() {
             @Override
             public void run() {
-                List<MetaCategory> metaCategories = store.loadCategoriesMax(start, end);
+                List<MetaCategory> metaCategories = store.loadCategoriesSum(start, end);
                 List<Category> allCategories = store.getCategories();
                 List<Category> categories = new ArrayList<>();
                 for (MetaCategory category : metaCategories) {

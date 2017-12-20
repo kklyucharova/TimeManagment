@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -24,6 +25,7 @@ public class EditCategoryActivity extends AppCompatActivity {
     private EditText name;
     private ImageView icon;
     private AppCompatSpinner spinner;
+    private Button delete;
 
     private Store store;
 
@@ -77,6 +79,25 @@ public class EditCategoryActivity extends AppCompatActivity {
             }
         });
 
+        delete = findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                executors.background().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        store.deleteCategory(id);
+                        executors.mainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         id = getIntent().getIntExtra(EXTRA_ID, -1);
         loadCategory(id);
     }
@@ -91,10 +112,12 @@ public class EditCategoryActivity extends AppCompatActivity {
                     category = new Category();
                     category.setIcon(iconIds[0]);
                 }
+                final boolean hasRecords = store.getRecordsByCategory(id);
                 executors.mainThread().execute(new Runnable() {
                     @Override
                     public void run() {
                         fill(category);
+                        delete.setVisibility(hasRecords?View.GONE:View.VISIBLE);
                     }
                 });
             }
